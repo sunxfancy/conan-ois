@@ -1,8 +1,16 @@
 from conans import ConanFile
 import os
-import glob
-from conans.tools import get
+import fnmatch
+from conans.tools import get, patch
 from conans import CMake
+
+
+def apply_patches(source, dest):
+    for root, dirnames, filenames in os.walk(source):
+        for filename in fnmatch.filter(filenames, '*.patch'):
+            patch_file = os.path.join(root, filename)
+            dest_path = os.path.join(dest, os.path.relpath(root, source))
+            patch(base_path=dest_path, patch_file=patch_file)
 
 
 class OisConan(ConanFile):
@@ -13,21 +21,19 @@ class OisConan(ConanFile):
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False]}
     default_options = "shared=False"
-    exports = ["CMakeLists.txt", 'CMakeLists-OIS.txt']
+    exports = ["CMakeLists.txt", 'CMakeLists-OIS.txt', 'patches*']
     url="http://github.com/sixten-hilborn/conan-ois"
     license="https://opensource.org/licenses/mit-license.php"
-            
+
     def source(self):
         get("https://github.com/wgois/OIS/archive/v1-3.zip")
         os.rename('CMakeLists-OIS.txt', '{0}/CMakeLists.txt'.format(self.folder))
+        apply_patches('patches', self.folder)
 
     def build(self):
-        if self.settings.os == "Linux" or self.settings.os == "Macos":
-            pass         
-        else:
-            self.makedir('_build')
-            self.cbuild('_build')
-    
+        self.makedir('_build')
+        self.cbuild('_build')
+
     def makedir(self, path):
         if self.settings.os == "Windows":
             self.run("IF not exist {0} mkdir {0}".format(path))

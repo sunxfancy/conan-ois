@@ -1,0 +1,10 @@
+--- LinuxJoyStickEvents.cpp	2016-12-12 11:13:43.084013000 +0100
++++ LinuxJoyStickEvents.cpp	2016-12-12 11:15:25.726826903 +0100
+@@ -33,6 +33,7 @@
+ #include <fcntl.h>        //Needed to Open a file descriptor
+ #include <cassert>	
+ #include <linux/input.h>
++#include <unistd.h>
+ 
+ 
+ #include <sstream>

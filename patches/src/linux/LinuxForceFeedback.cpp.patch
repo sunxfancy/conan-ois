@@ -1,0 +1,10 @@
+--- LinuxForceFeedback.cpp	2016-12-12 10:16:46.265888000 +0100
++++ LinuxForceFeedback.cpp	2016-12-12 10:24:06.342264380 +0100
+@@ -26,6 +26,7 @@
+ #include <cstdlib>
+ #include <errno.h>
+ #include <memory.h>
++#include <unistd.h>
+ 
+ using namespace OIS;
+ 
