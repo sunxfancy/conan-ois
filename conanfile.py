@@ -15,6 +15,7 @@ def apply_patches(source, dest):
 
 class OisConan(ConanFile):
     name = "OIS"
+    description = "OIS (Object Oriented Input System) is a cross-platform library to deal with input devices such as keyboards, mice and joysticks"
     version = "1.3"
     folder = 'OIS-1-3'
     generators = "cmake"
@@ -22,8 +23,13 @@ class OisConan(ConanFile):
     options = {"shared": [True, False]}
     default_options = "shared=False"
     exports = ["CMakeLists.txt", 'CMakeLists-OIS.txt', 'patches*']
-    url="http://github.com/sixten-hilborn/conan-ois"
-    license="https://opensource.org/licenses/mit-license.php"
+    url = "http://github.com/sixten-hilborn/conan-ois"
+    license = "https://opensource.org/licenses/mit-license.php"
+
+    def configure(self):
+        if self.settings.compiler == "Visual Studio" and self.settings.build_type == "Debug":
+            if not self.settings.compiler.runtime.value.endswith("d"):
+                self.settings.compiler.runtime.value += "d"
 
     def source(self):
         get("https://github.com/wgois/OIS/archive/v1-3.zip")
@@ -43,11 +49,8 @@ class OisConan(ConanFile):
     def cbuild(self, where, moar=''):
         cmake = CMake(self.settings)
         cd_build = 'cd ' + where
-        self.output.warn('%s && cmake .. %s %s' % (cd_build, cmake.command_line, moar))
-        self.run('%s && cmake .. %s %s' % (cd_build, cmake.command_line, moar))
-        self.output.warn("%s && cmake --build . %s" % (cd_build, cmake.build_config))
-        self.run("%s && cmake --build . %s" % (cd_build, cmake.build_config))
-
+        self.run_and_print('%s && cmake .. %s %s' % (cd_build, cmake.command_line, moar))
+        self.run_and_print("%s && cmake --build . %s" % (cd_build, cmake.build_config))
 
     def package(self):
         self.copy(pattern="*.h", dst="include/OIS", src="{0}/includes".format(self.folder), keep_path=False)
@@ -57,3 +60,7 @@ class OisConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ['OIS']
+
+    def run_and_print(self, command):
+        self.output.warn(command)
+        self.run(command)
