@@ -53,7 +53,7 @@ class OisConan(ConanFile):
         self.run_and_print("%s && cmake --build . %s" % (cd_build, cmake.build_config))
 
     def package(self):
-        self.copy(pattern="*.h", dst="include/OIS", src="{0}/includes".format(self.folder), keep_path=False)
+        self.copy(pattern="*.h", dst="include/OIS", src="{0}/includes".format(self.folder))
         self.copy("*.lib", dst="lib", src="_build/lib", keep_path=False)
         self.copy("*.a", dst="lib", src="_build/lib", keep_path=False)
         self.copy("*.dll", dst="bin", src="_build/bin", keep_path=False)
