@@ -54,9 +54,10 @@ class OisConan(ConanFile):
 
     def package(self):
         self.copy(pattern="*.h", dst="include/OIS", src="{0}/includes".format(self.folder))
-        self.copy("*.lib", dst="lib", src="_build/lib", keep_path=False)
-        self.copy("*.a", dst="lib", src="_build/lib", keep_path=False)
-        self.copy("*.dll", dst="bin", src="_build/bin", keep_path=False)
+        self.copy("*.lib", dst="lib", src="_build", keep_path=False)
+        self.copy("*.a", dst="lib", src="_build", keep_path=False)
+        self.copy("*.so", dst="lib", src="_build", keep_path=False)
+        self.copy("*.dll", dst="bin", src="_build", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = ['OIS']
