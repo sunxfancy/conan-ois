@@ -26,11 +26,6 @@ class OisConan(ConanFile):
     url = "http://github.com/sixten-hilborn/conan-ois"
     license = "https://opensource.org/licenses/mit-license.php"
 
-    def configure(self):
-        if self.settings.compiler == "Visual Studio" and self.settings.build_type == "Debug":
-            if not self.settings.compiler.runtime.value.endswith("d"):
-                self.settings.compiler.runtime.value += "d"
-
     def source(self):
         get("https://github.com/wgois/OIS/archive/v1-3.zip")
         os.rename('CMakeLists-OIS.txt', '{0}/CMakeLists.txt'.format(self.folder))
