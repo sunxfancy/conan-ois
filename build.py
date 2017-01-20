@@ -8,7 +8,7 @@ if __name__ == "__main__":
     builder.builds = [
         [settings, options]
         for settings, options in builder.builds
-        if not (settings.os == "Linux" and settings.arch == "x86")
+        if not (settings["os"] == "Linux" and settings["arch"] == "x86")
     ]
     builder.run()
 
