@@ -26,6 +26,12 @@ class OisConan(ConanFile):
     url = "http://github.com/sixten-hilborn/conan-ois"
     license = "https://opensource.org/licenses/mit-license.php"
 
+    def system_requirements(self):
+        if self.settings.os == "Linux":
+            installer = SystemPackageTool()
+            installer.update()
+            installer.install("libx11-dev")
+
     def source(self):
         get("https://github.com/wgois/OIS/archive/v1-3.zip")
         os.rename('CMakeLists-OIS.txt', '{0}/CMakeLists.txt'.format(self.folder))
