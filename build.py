@@ -1,5 +1,5 @@
 from conan.packager import ConanMultiPackager
-
+import platform
 
 if __name__ == "__main__":
     builder = ConanMultiPackager()
@@ -8,7 +8,7 @@ if __name__ == "__main__":
     builder.builds = [
         [settings, options]
         for settings, options in builder.builds
-        if not (settings["os"] == "Linux" and settings["arch"] == "x86")
+        if not (platform.system() == "Linux" and settings["arch"] == "x86")
     ]
     builder.run()
 
