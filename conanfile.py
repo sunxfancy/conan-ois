@@ -29,7 +29,6 @@ class OisConan(ConanFile):
     def system_requirements(self):
         if self.settings.os == "Linux":
             installer = SystemPackageTool()
-            installer.update()
             installer.install("libx11-dev")
 
     def source(self):
@@ -62,6 +61,8 @@ class OisConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ['OIS']
+        if self.settings.os == 'Linux':
+            self.cpp_info.libs.append('X11')
 
     def run_and_print(self, command):
         self.output.warn(command)

@@ -122,7 +122,6 @@ else()
     src/linux/LinuxKeyboard.cpp
     src/linux/LinuxMouse.cpp
   )
-  set(OIS_PLATFORM_LIBS X11)
 endif ()
 
 include_directories(includes)
