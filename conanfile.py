@@ -29,7 +29,10 @@ class OisConan(ConanFile):
     def system_requirements(self):
         if self.settings.os == "Linux":
             installer = SystemPackageTool()
-            installer.install("libx11-dev")
+            if self.settings.arch == 'x86':
+                installer.install("libx11-dev:i386")
+            elif self.settings.arch == 'x86_64':
+                installer.install("libx11-dev:amd64")
 
     def source(self):
         get("https://github.com/wgois/OIS/archive/v1-3.zip")
@@ -37,20 +40,9 @@ class OisConan(ConanFile):
         apply_patches('patches', self.folder)
 
     def build(self):
-        self.makedir('_build')
-        self.cbuild('_build')
-
-    def makedir(self, path):
-        if self.settings.os == "Windows":
-            self.run("IF not exist {0} mkdir {0}".format(path))
-        else:
-            self.run("mkdir {0}".format(path))
-
-    def cbuild(self, where, moar=''):
         cmake = CMake(self.settings)
-        cd_build = 'cd ' + where
-        self.run_and_print('%s && cmake .. %s %s' % (cd_build, cmake.command_line, moar))
-        self.run_and_print("%s && cmake --build . %s" % (cd_build, cmake.build_config))
+        cmake.configure(self, build_dir='_build')
+        cmake.build(self)
 
     def package(self):
         self.copy(pattern="*.h", dst="include/OIS", src="{0}/includes".format(self.folder))
