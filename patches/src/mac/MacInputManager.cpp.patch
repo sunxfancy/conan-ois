@@ -1,0 +1,10 @@
+--- MacInputManager.cpp	2017-03-05 10:37:38.458946600 +0100
++++ MacInputManager.cpp	2017-03-05 15:57:57.189415400 +0100
+@@ -27,6 +27,7 @@
+ #include "OISException.h"
+ 
+ #include <Carbon/Carbon.h>
++#include <HIToolbox/MacWindows.h>
+ 
+ #include <iostream>
+ using namespace std;
