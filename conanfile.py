@@ -55,6 +55,16 @@ class OisConan(ConanFile):
         self.cpp_info.libs = ['OIS']
         if self.settings.os == 'Linux':
             self.cpp_info.libs.append('X11')
+        elif self.settings.os == 'Macos':
+            self.cpp_info.exelinkflags.extend([
+                "-framework IOKit",
+                "-framework Cocoa",
+                "-framework Carbon"
+            ])
+            self.cpp_info.sharedlinkflags = self.cpp_info.exelinkflags
+        elif self.settings.os == 'iOS':
+            self.cpp_info.exelinkflags.append("-framework UIKit")
+            self.cpp_info.sharedlinkflags = self.cpp_info.exelinkflags
 
     def run_and_print(self, command):
         self.output.warn(command)
