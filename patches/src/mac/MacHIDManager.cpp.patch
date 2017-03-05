@@ -1,0 +1,18 @@
+--- MacHIDManager.cpp	2017-03-05 10:37:38.442444500 +0100
++++ MacHIDManager.cpp	2017-03-05 10:38:07.969193900 +0100
+@@ -406,6 +406,7 @@
+ 			switch(iType)
+ 			{
+ 				case OISJoyStick:
++				{
+ 					int totalDevs = totalDevices(iType);
+ 					int freeDevs = freeDevices(iType);
+ 					int devID = totalDevs - freeDevs;
+@@ -413,6 +414,7 @@
+ 					obj = new MacJoyStick((*it)->combinedKey, bufferMode, *it, creator, devID);
+ 					(*it)->inUse = true;
+ 					return obj;
++				}
+ 				case OISTablet:
+ 					//Create MacTablet
+ 					break;
