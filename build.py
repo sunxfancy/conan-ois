@@ -1,5 +1,4 @@
 from conan.packager import ConanMultiPackager
-from conans.tools import os_info
 import platform
 
 if __name__ == "__main__":
@@ -10,7 +9,6 @@ if __name__ == "__main__":
         [settings, options]
         for settings, options in builder.builds
         if not (settings["compiler"] == "Visual Studio" and settings["compiler.version"] == "10")
-        and not (os_info.is_macos)
     ]
     builder.run()
 
