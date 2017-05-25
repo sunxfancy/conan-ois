@@ -66,6 +66,3 @@ class OisConan(ConanFile):
             self.cpp_info.exelinkflags.append("-framework UIKit")
             self.cpp_info.sharedlinkflags = self.cpp_info.exelinkflags
 
-    def run_and_print(self, command):
-        self.output.warn(command)
-        self.run(command)
