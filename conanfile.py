@@ -40,9 +40,9 @@ class OisConan(ConanFile):
         apply_patches('patches', self.folder)
 
     def build(self):
-        cmake = CMake(self.settings)
-        cmake.configure(self, build_dir='_build')
-        cmake.build(self)
+        cmake = CMake(self)
+        cmake.configure(build_dir='_build')
+        cmake.build()
 
     def package(self):
         self.copy(pattern="*.h", dst="include/OIS", src="{0}/includes".format(self.folder))
