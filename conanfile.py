@@ -16,14 +16,13 @@ def apply_patches(source, dest):
 class OisConan(ConanFile):
     name = "OIS"
     description = "OIS (Object Oriented Input System) is a cross-platform library to deal with input devices such as keyboards, mice and joysticks"
-    version = "1.3"
-    folder = 'OIS-1-3'
+    version = "1.4"
+    folder = 'OIS-master'
     generators = "cmake"
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False]}
     default_options = "shared=False"
-    exports = ["CMakeLists.txt", 'CMakeLists-OIS.txt', 'patches*']
-    url = "http://github.com/sixten-hilborn/conan-ois"
+    url = "http://github.com/sunxfancy/conan-ois"
     license = "https://opensource.org/licenses/mit-license.php"
 
     def system_requirements(self):
@@ -35,13 +34,13 @@ class OisConan(ConanFile):
                 installer.install("libx11-dev:amd64")
 
     def source(self):
-        get("https://github.com/wgois/OIS/archive/v1-3.zip")
-        os.rename('CMakeLists-OIS.txt', '{0}/CMakeLists.txt'.format(self.folder))
-        apply_patches('patches', self.folder)
+        get("https://github.com/sunxfancy/OIS/archive/master.zip")
+        # os.rename('CMakeLists-OIS.txt', '{0}/CMakeLists.txt'.format(self.folder))
+        # apply_patches('patches', self.folder)
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure(build_dir='_build')
+        cmake.configure(source_dir='../OIS-master', build_dir='_build')
         cmake.build()
 
     def package(self):
